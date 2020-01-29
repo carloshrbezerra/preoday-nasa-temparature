@@ -22,7 +22,7 @@ public class NasaService {
 
 	private static final String API_KEY_PARAM = "/?api_key=";
 	private static final String ATMOSFERIC_TEMPERATURE = "AT";
-	private static final String CHAVE_TEMPERATURA = "av";
+	private static final String CHAVE_TEMPERATURA = "ct";
 
 	private Integer CHAVE_MAIS_ATUAL = 0;
 	private Integer TOTAL_DISPONIVEL = 0;
@@ -67,9 +67,9 @@ public class NasaService {
 			});
 
 			Map<String, Object> mapAT = oMapper.convertValue(mapTop.get(CHAVE_MAIS_ATUAL.toString()), Map.class);
-			Map<String, Double> mapTemperatura = oMapper.convertValue(mapAT.get(ATMOSFERIC_TEMPERATURE), Map.class);
+			Map<String, Integer> mapTemperatura = oMapper.convertValue(mapAT.get(ATMOSFERIC_TEMPERATURE), Map.class);
 
-			return mapTemperatura.get(CHAVE_TEMPERATURA);
+			return Double.parseDouble(mapTemperatura.get(CHAVE_TEMPERATURA).toString());
 		}
 		// Caso contrário faz a media de todas as temperatura
 		else {
@@ -80,7 +80,7 @@ public class NasaService {
 				if (isNumeric(entry.getKey())) {
 					TOTAL_DISPONIVEL++;
 					Map<String, Object> mapAT = oMapper.convertValue(mapTop.get(entry.getKey()), Map.class);
-					Map<String, Double> mapTemperatura = oMapper.convertValue(mapAT.get(ATMOSFERIC_TEMPERATURE),
+					Map<String, Integer> mapTemperatura = oMapper.convertValue(mapAT.get(ATMOSFERIC_TEMPERATURE),
 							Map.class);
 					TOTAL_TEMPERATURA += mapTemperatura.get(CHAVE_TEMPERATURA);
 				}
